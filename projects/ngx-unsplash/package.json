@@ -1,0 +1,30 @@
+{
+  "name": "@berry-cloud/ngx-unsplash-test",
+  "private": false,
+  "version": "0.0.0",
+  "description": "Lightweight Angular wrapper for the Unsplash API.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BerryCloud/ngx-unsplash.git"
+  },
+  "keywords": [
+    "Angular",
+    "Unsplash"
+  ],
+  "author": "Berry Cloud",
+  "bugs": {
+    "url": "https://github.com/BerryCloud/ngx-unsplash/issues"
+  },
+  "homepage": "https://github.com/BerryCloud/ngx-unsplash#readme",
+  "scripts": {
+    "version": "git add . && git commit -m \"Version $npm_package_version\" && git tag v$npm_package_version",
+    "postversion": "git push && git push --tags"
+  },
+  "peerDependencies": {
+    "@angular/common": "^12.1.0-",
+    "@angular/core": "^12.1.0-"
+  },
+  "dependencies": {
+    "tslib": "^2.2.0"
+  }
+}
