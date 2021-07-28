@@ -6,7 +6,7 @@ name: Build version tag and deploy
 on:
   push:
     tags:
-      - "lift-*"
+      - "v*"
 
 jobs:
   build:
