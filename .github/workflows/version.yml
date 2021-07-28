@@ -1,0 +1,43 @@
+# This workflow will do a clean install of node dependencies and then test
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Build version tag and deploy
+
+on:
+  push:
+    tags:
+      - "lift-*"
+
+jobs:
+  build:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      # TODO: configure e2e testing
+      - name: install and test
+        run: |
+          npm install
+          npm install -g @angular/cli
+
+          ng build ngx-unsplash
+
+          ng lint
+
+          ng test ngx-unsplash --no-watch --code-coverage --no-progress --browsers=ChromeHeadlessCI

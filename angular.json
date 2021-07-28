@@ -1,0 +1,51 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ngx-unsplash": {
+      "projectType": "library",
+      "root": "projects/ngx-unsplash",
+      "sourceRoot": "projects/ngx-unsplash/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngx-unsplash/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-unsplash/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-unsplash/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-unsplash/src/test.ts",
+            "tsConfig": "projects/ngx-unsplash/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-unsplash/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngx-unsplash/**/*.ts",
+              "projects/ngx-unsplash/**/*.html"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ngx-unsplash",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
+}
