@@ -1,7 +1,7 @@
 {
   "name": "@berry-cloud/ngx-unsplash",
   "private": false,
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Lightweight Angular wrapper for the Unsplash API.",
   "repository": {
     "type": "git",
