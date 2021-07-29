@@ -100,7 +100,7 @@ export class UnsplashService {
       params = params.set('orientation', options?.orientation);
     }
 
-    return this.http.get<SearchResult>(url, { headers: headers, params });
+    return this.http.get<SearchResult>(url, { headers, params });
   }
 
   /**
@@ -111,6 +111,15 @@ export class UnsplashService {
    * @returns Observable containing the [[Download]]
    */
   download(photo: Photo): Observable<Download> {
-    return this.http.get<Download>(photo.links.download);
+    if (!this.config) {
+      throw new Error('Unsplash configuration undefined');
+    }
+
+    let headers = new HttpHeaders().set(
+      'authorization',
+      this.config.authorization
+    );
+
+    return this.http.get<Download>(photo.links.download_location, { headers });
   }
 }
