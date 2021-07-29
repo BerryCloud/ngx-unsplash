@@ -1,5 +1,5 @@
 {
-  "name": "@berry-cloud/ngx-unsplash-test",
+  "name": "@berry-cloud/ngx-unsplash",
   "private": false,
   "version": "0.0.0",
   "description": "Lightweight Angular wrapper for the Unsplash API.",
