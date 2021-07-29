@@ -46,6 +46,6 @@ jobs:
       - name: publish
         run: |
           cd dist/ngx-unsplash/
-          npm publish --access public --dry-run
+          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
