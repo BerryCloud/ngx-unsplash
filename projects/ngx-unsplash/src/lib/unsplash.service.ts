@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Download } from './model/download';
+import { Photo } from './model/photo';
 import { SearchResult } from './model/search-result';
 
 export interface UnsplashConfig {
@@ -99,5 +101,16 @@ export class UnsplashService {
     }
 
     return this.http.get<SearchResult>(url, { headers: headers, params });
+  }
+
+  /**
+   * [Trigger a download](https://help.unsplash.com/en/articles/2511258-guideline-triggering-a-download)
+   * of a photo.
+   *
+   * @param photo to download
+   * @returns Observable containing the [[Download]]
+   */
+  download(photo: Photo): Observable<Download> {
+    return this.http.get<Download>(photo.links.download);
   }
 }
