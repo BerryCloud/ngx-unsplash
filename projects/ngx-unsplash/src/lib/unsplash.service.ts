@@ -19,6 +19,8 @@ export const UNSPLASH_CONFIG = new InjectionToken<UnsplashConfig>(
 })
 export class UnsplashService {
   private readonly searchUrl = 'search/photos';
+  private readonly photosUrl = 'photos';
+
   private config?: UnsplashConfig;
 
   constructor(
@@ -121,5 +123,41 @@ export class UnsplashService {
     );
 
     return this.http.get<Download>(photo.links.download_location, { headers });
+  }
+
+  photos(options: {
+    page?: number;
+    perPage?: number;
+    orderBy?: 'latest' | 'oldest' | 'popular';
+  }): Observable<Photo[]> {
+    if (!this.config) {
+      throw new Error('Unsplash configuration undefined');
+    }
+
+    let headers = new HttpHeaders().set(
+      'authorization',
+      this.config.authorization
+    );
+
+    let params = new HttpParams();
+
+    if (options.page) {
+      params = params.set('page', options.page);
+    }
+
+    if (options.perPage) {
+      params = params.set('per_page', options.perPage);
+    }
+
+    if (options.orderBy) {
+      params = params.set('order_by', options.orderBy);
+    }
+
+    const url = new URL(
+      this.photosUrl,
+      this.config.url.endsWith('/') ? this.config.url : this.config.url + '/'
+    ).toString();
+
+    return this.http.get<Photo[]>(url, { params, headers });
   }
 }
