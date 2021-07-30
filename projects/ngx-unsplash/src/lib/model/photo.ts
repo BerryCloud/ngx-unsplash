@@ -4,7 +4,7 @@ export interface Photo {
   id: string;
   created_at: string;
   updated_at: string;
-  promoted_at: string | null;
+  promoted_at?: string;
   width: number;
   height: number;
   color: string;
@@ -28,7 +28,12 @@ export interface Photo {
   likes: number;
   liked_by_user: boolean;
   current_user_collections: any[];
-  sponsorship: any;
+  sponsorship?: any;
   user: User;
-  tags: [{ type: string; title: string }];
+  tags: Tag[];
+}
+
+export interface Tag {
+  type: string;
+  title: string;
 }
