@@ -4,8 +4,8 @@ export interface User {
   username: string;
   name: string;
   first_name: string;
-  last_name: string;
-  twitter_username: string;
+  last_name?: string;
+  twitter_username?: string;
   portfolio_url: string;
   bio: string;
   location: string;
@@ -32,8 +32,8 @@ export interface ProfileImage {
 }
 
 export interface Social {
-  instagram_username: string;
-  portfolio_url: string;
-  twitter_username: string;
-  paypal_email?: any;
+  instagram_username?: string;
+  portfolio_url?: string;
+  twitter_username?: string;
+  paypal_email?: string;
 }

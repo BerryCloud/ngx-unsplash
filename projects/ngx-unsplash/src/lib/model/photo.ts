@@ -28,7 +28,7 @@ export interface Photo {
   likes: number;
   liked_by_user: boolean;
   current_user_collections: any[];
-  sponsorship?: any;
+  sponsorship?: Sponsorship;
   user: User;
   tags: Tag[];
 }
@@ -36,4 +36,11 @@ export interface Photo {
 export interface Tag {
   type: string;
   title: string;
+}
+
+export interface Sponsorship {
+  impression_urls: string[];
+  tagline: string;
+  tagline_url: string;
+  sponsor: User;
 }
