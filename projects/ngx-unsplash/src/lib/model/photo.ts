@@ -27,6 +27,8 @@ export interface Photo {
   categories: any[];
   likes: number;
   liked_by_user: boolean;
-  user: User;
   current_user_collections: any[];
+  sponsorship: any;
+  user: User;
+  tags: [{ type: string; title: string }];
 }

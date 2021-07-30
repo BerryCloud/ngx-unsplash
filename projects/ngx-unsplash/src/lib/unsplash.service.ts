@@ -67,11 +67,6 @@ export class UnsplashService {
       this.config.authorization
     );
 
-    const url = new URL(
-      this.searchUrl,
-      this.config.url.endsWith('/') ? this.config.url : this.config.url + '/'
-    ).toString();
-
     let params = new HttpParams().set('query', query);
 
     if (options?.page) {
@@ -101,6 +96,11 @@ export class UnsplashService {
     if (options?.orientation) {
       params = params.set('orientation', options?.orientation);
     }
+
+    const url = new URL(
+      this.searchUrl,
+      this.config.url.endsWith('/') ? this.config.url : this.config.url + '/'
+    ).toString();
 
     return this.http.get<SearchResult>(url, { headers, params });
   }
