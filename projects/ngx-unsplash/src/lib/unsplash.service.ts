@@ -10,7 +10,7 @@ export interface UnsplashConfig {
   authorization: string;
 }
 
-export const UNSPLASH_CONFIG = new InjectionToken<UnsplashConfig>(
+export const UNSPLASH_CONFIG = new InjectionToken<UnsplashConfig | Observable<UnsplashConfig>>(
   'unsplash.config'
 );
 
@@ -29,7 +29,7 @@ export class UnsplashService {
     config: UnsplashConfig | Observable<UnsplashConfig>
   ) {
     if (config instanceof Observable) {
-      config.subscribe((config) => (this.config = config));
+      config.subscribe((conf: UnsplashConfig) => (this.config = conf));
     } else {
       this.config = config;
     }
@@ -98,17 +98,17 @@ export class UnsplashService {
       collections?: string;
       contentFilter?: 'low' | 'high';
       color?:
-        | 'black_and_white'
-        | 'black'
-        | 'white'
-        | 'yellow'
-        | 'orange'
-        | 'red'
-        | 'purple'
-        | 'magenta'
-        | 'green'
-        | 'teal'
-        | 'blue';
+      | 'black_and_white'
+      | 'black'
+      | 'white'
+      | 'yellow'
+      | 'orange'
+      | 'red'
+      | 'purple'
+      | 'magenta'
+      | 'green'
+      | 'teal'
+      | 'blue';
       orientation?: 'landscape' | 'portrait' | 'squarish';
     }
   ): Observable<SearchResult> {
@@ -175,7 +175,12 @@ export class UnsplashService {
       'authorization',
       this.config.authorization
     );
+    const photoUrl = new URL(photo.links.download_location);
+    const url = new URL(
+      photoUrl.pathname.substr(1) + photoUrl.search,
+      this.config.url.endsWith('/') ? this.config.url : this.config.url + '/'
+    ).toString();
 
-    return this.http.get<Download>(photo.links.download_location, { headers });
+    return this.http.get<Download>(url, { headers });
   }
 }
