@@ -125,6 +125,14 @@ export class UnsplashService {
     return this.http.get<Download>(photo.links.download_location, { headers });
   }
 
+  /**
+   * [List photos](https://unsplash.com/documentation#list-photos)
+   *
+   * Get a single page from the list of all photos.
+   *
+   * @param options to be used for listing photos
+   * @returns Observable containing a {@link Photo} array
+   */
   photos(options: {
     page?: number;
     perPage?: number;
