@@ -19,6 +19,8 @@ export const UNSPLASH_CONFIG = new InjectionToken<UnsplashConfig>(
 })
 export class UnsplashService {
   private readonly searchUrl = 'search/photos';
+  private readonly photosUrl = 'photos';
+
   private config?: UnsplashConfig;
 
   constructor(
@@ -33,6 +35,60 @@ export class UnsplashService {
     }
   }
 
+  /**
+   * [List photos](https://unsplash.com/documentation#list-photos) on Unsplash.
+   *
+   * Get a single page from the list of all photos.
+   *
+   * @param options to be used when getting list of photos
+   * @returns Observable containing a {@link Photo} array
+   */
+  list(options: {
+    page?: number;
+    perPage?: number;
+    orderBy?: 'latest' | 'oldest' | 'popular';
+  }): Observable<Photo[]> {
+    if (!this.config) {
+      throw new Error('Unsplash configuration undefined');
+    }
+
+    let headers = new HttpHeaders().set(
+      'authorization',
+      this.config.authorization
+    );
+
+    let params = new HttpParams();
+
+    if (options.page) {
+      params = params.set('page', options.page);
+    }
+
+    if (options.perPage) {
+      params = params.set('per_page', options.perPage);
+    }
+
+    if (options.orderBy) {
+      params = params.set('order_by', options.orderBy);
+    }
+
+    const url = new URL(
+      this.photosUrl,
+      this.config.url.endsWith('/') ? this.config.url : this.config.url + '/'
+    ).toString();
+
+    return this.http.get<Photo[]>(url, { params, headers });
+  }
+
+  /**
+   * [Search photos](https://unsplash.com/documentation#search-photos) on
+   * Unsplash.
+   *
+   * Get a single page of photo results for a query.
+   *
+   * @param query to search for
+   * @param options to be used when searching photos
+   * @returns Observable containing a {@link SearchResult}
+   */
   search(
     query: string,
     options?: {
@@ -65,11 +121,6 @@ export class UnsplashService {
       this.config.authorization
     );
 
-    const url = new URL(
-      this.searchUrl,
-      this.config.url.endsWith('/') ? this.config.url : this.config.url + '/'
-    ).toString();
-
     let params = new HttpParams().set('query', query);
 
     if (options?.page) {
@@ -100,6 +151,11 @@ export class UnsplashService {
       params = params.set('orientation', options?.orientation);
     }
 
+    const url = new URL(
+      this.searchUrl,
+      this.config.url.endsWith('/') ? this.config.url : this.config.url + '/'
+    ).toString();
+
     return this.http.get<SearchResult>(url, { headers, params });
   }
 
@@ -108,7 +164,7 @@ export class UnsplashService {
    * of a photo.
    *
    * @param photo to download
-   * @returns Observable containing the [[Download]]
+   * @returns Observable containing the {@link Download}
    */
   download(photo: Photo): Observable<Download> {
     if (!this.config) {

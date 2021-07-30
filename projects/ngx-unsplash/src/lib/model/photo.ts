@@ -3,15 +3,14 @@ import { User } from './user';
 export interface Photo {
   id: string;
   created_at: string;
+  updated_at: string;
+  promoted_at?: string;
   width: number;
   height: number;
   color: string;
   blur_hash: string;
-  likes: number;
-  liked_by_user: boolean;
   description: string;
-  user: User;
-  current_user_collections: any[];
+  alt_description: string;
   urls: {
     raw: string;
     full: string;
@@ -25,4 +24,23 @@ export interface Photo {
     download: string;
     download_location: string;
   };
+  categories: any[];
+  likes: number;
+  liked_by_user: boolean;
+  current_user_collections: any[];
+  sponsorship?: Sponsorship;
+  user: User;
+  tags: Tag[];
+}
+
+export interface Tag {
+  type: string;
+  title: string;
+}
+
+export interface Sponsorship {
+  impression_urls: string[];
+  tagline: string;
+  tagline_url: string;
+  sponsor: User;
 }
