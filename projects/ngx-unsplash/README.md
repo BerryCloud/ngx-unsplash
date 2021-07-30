@@ -120,13 +120,12 @@ Options:
 Example:
 
 ```TypeScript
-export class ListComponent implements OnInit {
+export class ListComponent {
   photos: Photo[] | undefined;
 
   constructor(private unsplash: UnsplashService) {}
 
   list() {
-
     this.unsplash.list({ perPage: 40 }).subscribe((response) => {
       this.photos = response;
     });
