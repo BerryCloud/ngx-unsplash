@@ -36,11 +36,11 @@ export class UnsplashService {
   }
 
   /**
-   * [List photos](https://unsplash.com/documentation#list-photos)
+   * [List photos](https://unsplash.com/documentation#list-photos) on Unsplash.
    *
    * Get a single page from the list of all photos.
    *
-   * @param options to be used for listing photos
+   * @param options to be used when getting list of photos
    * @returns Observable containing a {@link Photo} array
    */
   list(options: {
@@ -79,6 +79,16 @@ export class UnsplashService {
     return this.http.get<Photo[]>(url, { params, headers });
   }
 
+  /**
+   * [Search photos](https://unsplash.com/documentation#search-photos) on
+   * Unsplash.
+   *
+   * Get a single page of photo results for a query.
+   *
+   * @param query to search for
+   * @param options to be used when searching photos
+   * @returns Observable containing a {@link SearchResult}
+   */
   search(
     query: string,
     options?: {

@@ -107,9 +107,36 @@ function unsplashConfigFactory(userService: UserService) {
 export class AppModule {}
 ```
 
+### List
+
+Inject the UnsplashService into the constructor of a component.
+
+Options:
+
+- page
+- perPage
+- orderBy
+
+Example:
+
+```TypeScript
+export class ListComponent implements OnInit {
+  photos: Photo[] | undefined;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  list() {
+
+    this.unsplash.list({ perPage: 40 }).subscribe((response) => {
+      this.photos = response;
+    });
+  }
+}
+```
+
 ### Search
 
-Inject the UnsplashService into the constructor of any component.
+Inject the UnsplashService into the constructor of a component.
 
 Options:
 
@@ -124,14 +151,6 @@ Options:
 Example:
 
 ```TypeScript
-import { Component } from '@angular/core';
-import { Photo, UnsplashService } from 'ngx-unsplash';
-
-@Component({
-  selector: 'app-search-photos',
-  templateUrl: './search-photos.component.html',
-  styleUrls: ['./search-photos.component.css'],
-})
 export class SearchPhotosComponent {
   photos: Photo[] | undefined;
 
