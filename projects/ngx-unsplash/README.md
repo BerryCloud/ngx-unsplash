@@ -78,8 +78,7 @@ import { AppComponent } from './app.component';
 import { UserService } from './user.service';
 
 function unsplashConfigFactory(userService: UserService) {
-  return () =>
-    userService.user$.pipe(
+  return userService.user$.pipe(
       map((user) => ({
         url: 'https://example.com/',
         authorization: `Bearer ${user.authorization}`,

@@ -10,9 +10,9 @@ export interface UnsplashConfig {
   authorization: string;
 }
 
-export const UNSPLASH_CONFIG = new InjectionToken<UnsplashConfig>(
-  'unsplash.config'
-);
+export const UNSPLASH_CONFIG = new InjectionToken<
+  UnsplashConfig | Observable<UnsplashConfig>
+>('unsplash.config');
 
 @Injectable({
   providedIn: 'root',
@@ -175,7 +175,12 @@ export class UnsplashService {
       'authorization',
       this.config.authorization
     );
+    const photoUrl = new URL(photo.links.download_location);
+    const url = new URL(
+      photoUrl.pathname.substr(1) + photoUrl.search,
+      this.config.url.endsWith('/') ? this.config.url : this.config.url + '/'
+    ).toString();
 
-    return this.http.get<Download>(photo.links.download_location, { headers });
+    return this.http.get<Download>(url, { headers });
   }
 }
