@@ -149,7 +149,7 @@ Options:
 Example:
 
 ```TypeScript
-export class SearchPhotosComponent {
+export class SearchComponent {
   photos: Photo[] | undefined;
 
   constructor(private unsplash: UnsplashService) {}
@@ -158,6 +158,21 @@ export class SearchPhotosComponent {
     this.unsplash.search(query, { perPage: 10 }).subscribe((response) => {
       this.photos = response.results;
     });
+  }
+}
+```
+
+### Triggering a download
+
+Example:
+
+```TypeScript
+export class DownloadComponent {
+
+constructor(private unsplash: UnsplashService) {}
+
+  download(photo: Photo) {
+    this.unsplash.download(photo).subscribe();
   }
 }
 ```
