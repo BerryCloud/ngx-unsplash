@@ -10,9 +10,9 @@ export interface UnsplashConfig {
   authorization: string;
 }
 
-export const UNSPLASH_CONFIG = new InjectionToken<UnsplashConfig | Observable<UnsplashConfig>>(
-  'unsplash.config'
-);
+export const UNSPLASH_CONFIG = new InjectionToken<
+  UnsplashConfig | Observable<UnsplashConfig>
+>('unsplash.config');
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,7 @@ export class UnsplashService {
     config: UnsplashConfig | Observable<UnsplashConfig>
   ) {
     if (config instanceof Observable) {
-      config.subscribe((conf: UnsplashConfig) => (this.config = conf));
+      config.subscribe((config) => (this.config = config));
     } else {
       this.config = config;
     }
@@ -98,17 +98,17 @@ export class UnsplashService {
       collections?: string;
       contentFilter?: 'low' | 'high';
       color?:
-      | 'black_and_white'
-      | 'black'
-      | 'white'
-      | 'yellow'
-      | 'orange'
-      | 'red'
-      | 'purple'
-      | 'magenta'
-      | 'green'
-      | 'teal'
-      | 'blue';
+        | 'black_and_white'
+        | 'black'
+        | 'white'
+        | 'yellow'
+        | 'orange'
+        | 'red'
+        | 'purple'
+        | 'magenta'
+        | 'green'
+        | 'teal'
+        | 'blue';
       orientation?: 'landscape' | 'portrait' | 'squarish';
     }
   ): Observable<SearchResult> {
