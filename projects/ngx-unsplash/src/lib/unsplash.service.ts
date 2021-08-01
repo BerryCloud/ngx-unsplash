@@ -185,7 +185,12 @@ export class UnsplashService {
       this.config.authorization
     );
 
-    return this.http.get<Photo[]>(this.randomUrl, { headers, params });
+    const url = new URL(
+      this.randomUrl,
+      this.config.url.endsWith('/') ? this.config.url : this.config.url + '/'
+    ).toString();
+
+    return this.http.get<Photo[]>(url, { headers, params });
   }
 
   /**
