@@ -132,6 +132,56 @@ export class ListComponent {
 }
 ```
 
+### Get
+
+Inject the UnsplashService into the constructor of a component.
+
+Example:
+
+```TypeScript
+export class GetComponent {
+  photo: Photo | undefined;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  get(id: string) {
+    this.unsplash.get(id).subscribe((response) => {
+      this.photo = response;
+    });
+  }
+}
+```
+
+### Random
+
+Inject the UnsplashService into the constructor of a component.
+
+Options:
+
+- collections
+- topics
+- username
+- query
+- orientation
+- contentFilter
+- count
+
+Example:
+
+```TypeScript
+export class RandomComponent {
+  photos: Photo[] | undefined;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  random() {
+    this.unsplash.random({ count: 10 }).subscribe((response) => {
+      this.photos = response;
+    });
+  }
+}
+```
+
 ### Search
 
 Inject the UnsplashService into the constructor of a component.
