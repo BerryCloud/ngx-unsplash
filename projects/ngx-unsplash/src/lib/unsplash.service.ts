@@ -104,6 +104,27 @@ export class UnsplashService {
   }
 
   /**
+   * [Get a photo](https://unsplash.com/documentation#get-a-photo).
+   *
+   * Retrieve a single photo.
+   *
+   * @param id of the photo
+   * @returns  Observable containing the {@link Photo}
+   */
+  get(id: string): Observable<Photo> {
+    if (!this.config) {
+      throw new Error('Unsplash configuration undefined');
+    }
+
+    const url = new URL(
+      this.photosUrl + '/' + id,
+      this.config.url.endsWith('/') ? this.config.url : this.config.url + '/'
+    ).toString();
+
+    return this.http.get<Photo>(url);
+  }
+
+  /**
    * [Get random photos](https://unsplash.com/documentation#get-a-random-photo).
    *
    * Retrieve random photos.
