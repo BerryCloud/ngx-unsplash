@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Download } from './model/download';
 import { Photo } from './model/photo';
 import { SearchResult } from './model/search-result';
+import { mergeMap } from 'rxjs/operators';
 
 export interface UnsplashConfig {
   url: string;
@@ -45,7 +46,7 @@ export class UnsplashService {
   private readonly photosUrl = 'photos';
   private readonly randomUrl = 'photos/random';
 
-  private config?: UnsplashConfig;
+  private config$: Observable<UnsplashConfig>;
 
   constructor(
     private http: HttpClient,
@@ -53,9 +54,9 @@ export class UnsplashService {
     config: UnsplashConfig | Observable<UnsplashConfig>
   ) {
     if (config instanceof Observable) {
-      config.subscribe((config) => (this.config = config));
+      this.config$ = config;
     } else {
-      this.config = config;
+      this.config$ = of(config);
     }
   }
 
@@ -72,35 +73,39 @@ export class UnsplashService {
     perPage?: number;
     orderBy?: 'latest' | 'oldest' | 'popular';
   }): Observable<Photo[]> {
-    if (!this.config) {
-      throw new Error('Unsplash configuration undefined');
-    }
+    return this.config$.pipe(
+      mergeMap(config => {
+        if (!config) {
+          throw new Error('Unsplash configuration undefined');
+        }
 
-    let headers = new HttpHeaders().set(
-      'authorization',
-      this.config.authorization
+        let headers = new HttpHeaders().set(
+          'authorization',
+          config.authorization
+        );
+
+        let params = new HttpParams();
+
+        if (options.page) {
+          params = params.set('page', options.page);
+        }
+
+        if (options.perPage) {
+          params = params.set('per_page', options.perPage);
+        }
+
+        if (options.orderBy) {
+          params = params.set('order_by', options.orderBy);
+        }
+
+        const url = new URL(
+          this.photosUrl,
+          config.url.endsWith('/') ? config.url : config.url + '/'
+        ).toString();
+
+        return this.http.get<Photo[]>(url, { params, headers });
+      })
     );
-
-    let params = new HttpParams();
-
-    if (options.page) {
-      params = params.set('page', options.page);
-    }
-
-    if (options.perPage) {
-      params = params.set('per_page', options.perPage);
-    }
-
-    if (options.orderBy) {
-      params = params.set('order_by', options.orderBy);
-    }
-
-    const url = new URL(
-      this.photosUrl,
-      this.config.url.endsWith('/') ? this.config.url : this.config.url + '/'
-    ).toString();
-
-    return this.http.get<Photo[]>(url, { params, headers });
   }
 
   /**
@@ -112,21 +117,25 @@ export class UnsplashService {
    * @returns  Observable containing the {@link Photo}
    */
   get(id: string): Observable<Photo> {
-    if (!this.config) {
-      throw new Error('Unsplash configuration undefined');
-    }
+    return this.config$.pipe(
+      mergeMap(config => {
+        if (!config) {
+          throw new Error('Unsplash configuration undefined');
+        }
 
-    const url = new URL(
-      this.photosUrl + '/' + id,
-      this.config.url.endsWith('/') ? this.config.url : this.config.url + '/'
-    ).toString();
+        const url = new URL(
+          this.photosUrl + '/' + id,
+          config.url.endsWith('/') ? config.url : config.url + '/'
+        ).toString();
 
-    let headers = new HttpHeaders().set(
-      'authorization',
-      this.config.authorization
+        let headers = new HttpHeaders().set(
+          'authorization',
+          config.authorization
+        );
+
+        return this.http.get<Photo>(url, { headers });
+      })
     );
-
-    return this.http.get<Photo>(url, { headers });
   }
 
   /**
@@ -146,51 +155,55 @@ export class UnsplashService {
     contentFilter?: ContentFilter;
     count?: Count;
   }): Observable<Photo[]> {
-    if (!this.config) {
-      throw new Error('Unsplash configuration undefined');
-    }
+    return this.config$.pipe(
+      mergeMap(config => {
+        if (!config) {
+          throw new Error('Unsplash configuration undefined');
+        }
 
-    let params = new HttpParams();
+        let params = new HttpParams();
 
-    if (options?.collections) {
-      params = params.set('collections', options?.collections);
-    }
+        if (options?.collections) {
+          params = params.set('collections', options?.collections);
+        }
 
-    if (options?.topics) {
-      params = params.set('topics', options?.topics);
-    }
+        if (options?.topics) {
+          params = params.set('topics', options?.topics);
+        }
 
-    if (options?.username) {
-      params = params.set('username', options?.username);
-    }
+        if (options?.username) {
+          params = params.set('username', options?.username);
+        }
 
-    if (options?.query) {
-      params = params.set('query', options?.query);
-    }
+        if (options?.query) {
+          params = params.set('query', options?.query);
+        }
 
-    if (options?.orientation) {
-      params = params.set('orientation', options?.orientation);
-    }
+        if (options?.orientation) {
+          params = params.set('orientation', options?.orientation);
+        }
 
-    if (options?.contentFilter) {
-      params = params.set('content_filter', options?.contentFilter);
-    }
+        if (options?.contentFilter) {
+          params = params.set('content_filter', options?.contentFilter);
+        }
 
-    if (options?.count) {
-      params = params.set('count', options?.count);
-    }
+        if (options?.count) {
+          params = params.set('count', options?.count);
+        }
 
-    let headers = new HttpHeaders().set(
-      'authorization',
-      this.config.authorization
+        let headers = new HttpHeaders().set(
+          'authorization',
+          config.authorization
+        );
+
+        const url = new URL(
+          this.randomUrl,
+          config.url.endsWith('/') ? config.url : config.url + '/'
+        ).toString();
+
+        return this.http.get<Photo[]>(url, { headers, params });
+      })
     );
-
-    const url = new URL(
-      this.randomUrl,
-      this.config.url.endsWith('/') ? this.config.url : this.config.url + '/'
-    ).toString();
-
-    return this.http.get<Photo[]>(url, { headers, params });
   }
 
   /**
@@ -214,51 +227,55 @@ export class UnsplashService {
       orientation?: Orientation;
     }
   ): Observable<SearchResult> {
-    if (!this.config) {
-      throw new Error('Unsplash configuration undefined');
-    }
+    return this.config$.pipe(
+      mergeMap(config => {
+        if (!config) {
+          throw new Error('Unsplash configuration undefined');
+        }
 
-    let params = new HttpParams().set('query', query);
+        let params = new HttpParams().set('query', query);
 
-    if (options?.page) {
-      params = params.set('page', options?.page);
-    }
+        if (options?.page) {
+          params = params.set('page', options?.page);
+        }
 
-    if (options?.perPage) {
-      params = params.set('per_page', options?.perPage);
-    }
+        if (options?.perPage) {
+          params = params.set('per_page', options?.perPage);
+        }
 
-    if (options?.orderBy) {
-      params = params.set('order_by', options?.orderBy);
-    }
+        if (options?.orderBy) {
+          params = params.set('order_by', options?.orderBy);
+        }
 
-    if (options?.collections) {
-      params = params.set('collections', options?.collections);
-    }
+        if (options?.collections) {
+          params = params.set('collections', options?.collections);
+        }
 
-    if (options?.contentFilter) {
-      params = params.set('content_filter', options?.contentFilter);
-    }
+        if (options?.contentFilter) {
+          params = params.set('content_filter', options?.contentFilter);
+        }
 
-    if (options?.color) {
-      params = params.set('color', options?.color);
-    }
+        if (options?.color) {
+          params = params.set('color', options?.color);
+        }
 
-    if (options?.orientation) {
-      params = params.set('orientation', options?.orientation);
-    }
+        if (options?.orientation) {
+          params = params.set('orientation', options?.orientation);
+        }
 
-    let headers = new HttpHeaders().set(
-      'authorization',
-      this.config.authorization
+        let headers = new HttpHeaders().set(
+          'authorization',
+          config.authorization
+        );
+
+        const url = new URL(
+          this.searchUrl,
+          config.url.endsWith('/') ? config.url : config.url + '/'
+        ).toString();
+
+        return this.http.get<SearchResult>(url, { headers, params });
+      })
     );
-
-    const url = new URL(
-      this.searchUrl,
-      this.config.url.endsWith('/') ? this.config.url : this.config.url + '/'
-    ).toString();
-
-    return this.http.get<SearchResult>(url, { headers, params });
   }
 
   /**
@@ -269,21 +286,25 @@ export class UnsplashService {
    * @returns Observable containing the {@link Download}
    */
   download(photo: Photo): Observable<Download> {
-    if (!this.config) {
-      throw new Error('Unsplash configuration undefined');
-    }
+    return this.config$.pipe(
+      mergeMap(config => {
+        if (!config) {
+          throw new Error('Unsplash configuration undefined');
+        }
 
-    let headers = new HttpHeaders().set(
-      'authorization',
-      this.config.authorization
+        let headers = new HttpHeaders().set(
+          'authorization',
+          config.authorization
+        );
+
+        const photoUrl = new URL(photo.links.download_location);
+        const url = new URL(
+          photoUrl.pathname.substr(1) + photoUrl.search,
+          config.url.endsWith('/') ? config.url : config.url + '/'
+        ).toString();
+
+        return this.http.get<Download>(url, { headers });
+      })
     );
-
-    const photoUrl = new URL(photo.links.download_location);
-    const url = new URL(
-      photoUrl.pathname.substr(1) + photoUrl.search,
-      this.config.url.endsWith('/') ? this.config.url : this.config.url + '/'
-    ).toString();
-
-    return this.http.get<Download>(url, { headers });
   }
 }
