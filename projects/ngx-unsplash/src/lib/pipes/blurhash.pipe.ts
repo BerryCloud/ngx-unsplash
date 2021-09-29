@@ -28,16 +28,17 @@ export class BlurHashPipe implements PipeTransform {
   }
 
   private getImageFromBlurHash(photo: Photo): HTMLCanvasElement {
-    let r = photo.width / 240;
-
-    let width = photo.width / r;
-    let height = photo.height / r;
-
-    const pixels = decode(photo.blur_hash, width, height);
-
     const canvas = document.createElement('canvas');
+
+    let width = photo.width || 240;
+    let r = width / 240;
+    canvas.width = width / r;
+    canvas.height = photo.height / r;
+
+    const pixels = decode(photo.blur_hash, canvas.width, canvas.height);
+
     const ctx = canvas.getContext('2d');
-    const imageData = ctx!.createImageData(width, height);
+    const imageData = ctx!.createImageData(canvas.width, canvas.height);
     imageData.data.set(pixels);
     ctx!.putImageData(imageData, 0, 0);
 
