@@ -226,3 +226,20 @@ constructor(private unsplash: UnsplashService) {}
   }
 }
 ```
+
+### BlurHash Pipe
+
+Returns a URL of the BlurHash preview and then the URL of photo once the photo
+been downloaded by the browser.
+
+Parameters:
+
+- size
+
+Example:
+
+```HTML
+<div *ngFor="let photo of photos">
+  <img [src]="photo | blurhash | async" alt="{{ photo.alt_description }}" />
+</div>
+```
