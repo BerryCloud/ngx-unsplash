@@ -7,6 +7,16 @@ import { Photo } from '../model/photo';
   name: 'blurhash',
 })
 export class BlurHashPipe implements PipeTransform {
+  /**
+   * [BlurHash placeholder](https://unsplash.com/documentation#blurhash-placeholders).
+   *
+   * Returns a URL of the BlurHash preview and then the URL of photo once the
+   * photo been downloaded by the browser.
+   *
+   * @param photo to download
+   * @param size to be returned, the default is thumb
+   * @returns Observable of URL
+   */
   transform(
     photo: Photo,
     size: 'raw' | 'full' | 'regular' | 'small' | 'thumb' = 'thumb'
