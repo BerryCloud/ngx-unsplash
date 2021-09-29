@@ -229,8 +229,7 @@ constructor(private unsplash: UnsplashService) {}
 
 ### BlurHash Pipe
 
-Returns a URL of BlurHash preview of the photo and then the URL of photo once
-the photo been downloaded by the browser.
+Returns a URL of the BlurHash preview and then the URL of photo once the photo been downloaded by the browser.
 
 Parameters:
 
