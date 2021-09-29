@@ -23,9 +23,13 @@
   },
   "peerDependencies": {
     "@angular/common": "^12.1.0-",
-    "@angular/core": "^12.1.0-"
+    "@angular/core": "^12.1.0-",
+    "blurhash": "^1.1.4"
   },
   "dependencies": {
     "tslib": "^2.2.0"
+  },
+  "devDependencies": {
+    "blurhash": "^1.1.4"
   }
 }
