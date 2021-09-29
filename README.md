@@ -234,8 +234,9 @@ the photo has downloaded.
 
 Parameters:
 
-| ---- |----------------------------------------| -----------------------------|
-| size | `raw` `full` `regular` `small` `thumb` | Optional. Default is: `thumb`
+|      |                                        |                              |
+| ---- | -------------------------------------- | ---------------------------- |
+| size | `raw` `full` `regular` `small` `thumb` | Optional. Default is `thumb` |
 
 Example:
 
