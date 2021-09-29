@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
+import { BlurHashPipe } from './pipes/blurhash.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [BlurHashPipe],
   imports: [],
-  exports: [],
+  exports: [BlurHashPipe],
 })
 export class NgxUnsplashModule {}
