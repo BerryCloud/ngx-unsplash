@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Photo } from '../model/photo';
 
 @Pipe({
-  name: 'BlurHash',
+  name: 'blurhash',
 })
 export class BlurHashPipe implements PipeTransform {
   transform(
