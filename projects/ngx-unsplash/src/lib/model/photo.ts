@@ -8,7 +8,7 @@ export interface Photo {
   width: number;
   height: number;
   color: string;
-  blur_hash: string;
+  blur_hash?: string;
   description: string;
   alt_description: string;
   urls: {

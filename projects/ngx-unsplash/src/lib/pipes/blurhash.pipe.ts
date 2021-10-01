@@ -46,11 +46,13 @@ export class BlurHashPipe implements PipeTransform {
     canvas.height = (photo.height || 180) / r;
 
     try {
-      const pixels = decode(photo.blur_hash, canvas.width, canvas.height);
-      const ctx = canvas.getContext('2d');
-      const imageData = ctx!.createImageData(canvas.width, canvas.height);
-      imageData.data.set(pixels);
-      ctx!.putImageData(imageData, 0, 0);
+      if (photo.blur_hash) {
+        const pixels = decode(photo.blur_hash, canvas.width, canvas.height);
+        const ctx = canvas.getContext('2d');
+        const imageData = ctx!.createImageData(canvas.width, canvas.height);
+        imageData.data.set(pixels);
+        ctx!.putImageData(imageData, 0, 0);
+      }
     } catch { }
     return canvas;
   }
