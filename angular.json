@@ -31,21 +31,9 @@
             "tsConfig": "projects/ngx-unsplash/tsconfig.spec.json",
             "karmaConfig": "projects/ngx-unsplash/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/ngx-unsplash/**/*.ts",
-              "projects/ngx-unsplash/**/*.html"
-            ]
-          }
         }
       }
     }
   },
-  "defaultProject": "ngx-unsplash",
-  "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
-  }
+  "defaultProject": "ngx-unsplash"
 }

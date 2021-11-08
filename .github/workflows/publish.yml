@@ -28,7 +28,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "14"
+          node-version: "16"
           registry-url: https://registry.npmjs.org
 
       # TODO: configure e2e testing
@@ -39,7 +39,7 @@ jobs:
 
           ng build ngx-unsplash
 
-          ng lint
+          # ng lint
 
           ng test ngx-unsplash --no-watch --code-coverage --no-progress --browsers=ChromeHeadlessCI
 
