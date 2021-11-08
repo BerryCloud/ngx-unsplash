@@ -17,17 +17,17 @@
   },
   "homepage": "https://github.com/BerryCloud/ngx-unsplash#readme",
   "scripts": {
-    "preversion": "ng lint && ng build && ng test --no-watch --no-progress --browsers=ChromeHeadlessCI",
+    "preversion": "ng build && ng test --no-watch --no-progress --browsers=ChromeHeadlessCI",
     "version": "git add . && git commit -m \"Version $npm_package_version\" && git tag v$npm_package_version",
     "postversion": "git push && git push --tags"
   },
   "peerDependencies": {
-    "@angular/common": "^12.1.0-",
-    "@angular/core": "^12.1.0-",
+    "@angular/common": "^13.0.0",
+    "@angular/core": "^13.0.0",
     "blurhash": "^1.1.4"
   },
   "dependencies": {
-    "tslib": "^2.2.0"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "blurhash": "^1.1.4"
