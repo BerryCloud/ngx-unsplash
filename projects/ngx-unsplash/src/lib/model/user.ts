@@ -11,7 +11,7 @@ export interface User {
   location: string;
   links: {
     self: string;
-    html: string;
+    html?: string;
     photos: string;
     likes: string;
   };

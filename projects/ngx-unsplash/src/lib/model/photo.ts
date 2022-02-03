@@ -9,8 +9,8 @@ export interface Photo {
   height: number;
   color: string;
   blur_hash?: string;
-  description: string;
-  alt_description: string;
+  description?: string;
+  alt_description?: string;
   urls: {
     raw: string;
     full: string;
