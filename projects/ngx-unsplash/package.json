@@ -22,8 +22,8 @@
     "postversion": "git push && git push --tags"
   },
   "peerDependencies": {
-    "@angular/common": "^14.2.8",
-    "@angular/core": "^14.2.8",
+    "@angular/common": "^14.2.0",
+    "@angular/core": "^14.2.0",
     "blurhash": "^1.1.4"
   },
   "dependencies": {
