@@ -1,7 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { UnsplashConfig } from 'dist/ngx-unsplash/public-api';
-import { UnsplashService, UNSPLASH_CONFIG } from './unsplash.service';
+import {
+  UNSPLASH_CONFIG,
+  UnsplashConfig,
+  UnsplashService,
+} from './unsplash.service';
 
 describe('UnsplashService', () => {
   let service: UnsplashService;
