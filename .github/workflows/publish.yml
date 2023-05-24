@@ -41,7 +41,7 @@ jobs:
 
           # ng lint
 
-          ng test ngx-unsplash --no-watch --code-coverage --no-progress --browsers=ChromeHeadlessCI
+          ng test --no-watch --no-progress --browsers=ChromeHeadless
 
       - name: publish
         run: |

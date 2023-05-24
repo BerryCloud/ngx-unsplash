@@ -12,16 +12,17 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
-      "ngx-unsplash": ["dist/ngx-unsplash/ngx-unsplash", "dist/ngx-unsplash"]
+      "ngx-unsplash": ["dist/ngx-unsplash"]
     },
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2020",
-    "module": "es2020",
-    "lib": ["es2020", "dom"]
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "lib": ["ES2022", "dom"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
