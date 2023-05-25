@@ -15,13 +15,13 @@ cd projects/ngx-unsplash
 npm version x
 ```
 
-Note: x should be replaced with either major, minor or patch. The `npm version` command will create push a tag for the version.
+Note: x should be replaced with either major, minor or patch. The `npm version` command will create and push a tag for the version.
 
 ### Creating a GitHub Release
 
 Next, create a [GitHub release](https://github.com/BerryCloud/ngx-unsplash/releases) for the newly created version tag.
 
-Once the GitHub release has been created GitHub actions will build publish the new version.
+Once the GitHub release has been created, GitHub actions will build publish the new version.
 
 ### Merging the release branch into main
 
