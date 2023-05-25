@@ -339,4 +339,35 @@ export class UnsplashService {
       })
     );
   }
+
+  /**
+   * [Unlike a photo](https://unsplash.com/documentation#unlike-a-photo).
+   * Remove a user’s like of a photo.
+   *
+   * @param photo to unlike
+   *
+   * @returns Observable containing the {@link Like}
+   * @throws Error if the Unsplash configuration is undefined
+   */
+  unlike(photo: Photo): Observable<Like> {
+    return this.config$.pipe(
+      mergeMap((config) => {
+        if (!config) {
+          throw new Error('Unsplash configuration undefined');
+        }
+
+        let headers = new HttpHeaders().set(
+          'authorization',
+          config.authorization
+        );
+
+        const url = new URL(
+          this.photosUrl + '/' + photo.id + '/like',
+          config.url.endsWith('/') ? config.url : config.url + '/'
+        ).toString();
+
+        return this.http.delete<Like>(url, { headers });
+      })
+    );
+  }
 }
