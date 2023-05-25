@@ -310,6 +310,124 @@ export class UnsplashService {
   }
 
   /**
+   * [Update a photo](https://unsplash.com/documentation#update-a-photo).
+   *
+   * Update a photo on behalf of the logged-in user. This requires the write_photos scope.
+   *
+   * @param photo to update
+   * @returns Observable containing the {@link Photo}
+   * @throws Error if the Unsplash configuration is undefined
+   */
+  update(
+    photo: Photo,
+    options: {
+      description?: string;
+      showOnProfile?: boolean;
+      tags?: string[];
+      locationLatitude?: number;
+      locationLongitude?: number;
+      locationName?: string;
+      locationCity?: string;
+      locationCountry?: string;
+      exifMake?: string;
+      exifModel?: string;
+      exifExposureTime?: string;
+      exifApertureValue?: string;
+      exifFocalLength?: string;
+      exifIsoSpeedRatings?: string;
+    }
+  ): Observable<Photo> {
+    return this.config$.pipe(
+      mergeMap((config) => {
+        if (!config) {
+          throw new Error('Unsplash configuration undefined');
+        }
+
+        let headers = new HttpHeaders().set(
+          'authorization',
+          config.authorization
+        );
+
+        let params = new HttpParams();
+        if (options.description) {
+          params = params.set('description', options.description);
+        }
+
+        if (options.showOnProfile) {
+          params = params.set('show_on_profile', options.showOnProfile);
+        }
+
+        if (options.tags) {
+          params = params.set('tags', options.tags.join(','));
+        }
+
+        if (options.locationLatitude) {
+          params = params.set(
+            'location[latitude]',
+            options.locationLatitude.toString()
+          );
+        }
+
+        if (options.locationLongitude) {
+          params = params.set(
+            'location[longitude]',
+            options.locationLongitude.toString()
+          );
+        }
+
+        if (options.locationName) {
+          params = params.set('location[name]', options.locationName);
+        }
+
+        if (options.locationCity) {
+          params = params.set('location[city]', options.locationCity);
+        }
+
+        if (options.locationCountry) {
+          params = params.set('location[country]', options.locationCountry);
+        }
+
+        if (options.exifMake) {
+          params = params.set('exif[make]', options.exifMake);
+        }
+
+        if (options.exifModel) {
+          params = params.set('exif[model]', options.exifModel);
+        }
+
+        if (options.exifExposureTime) {
+          params = params.set('exif[exposure_time]', options.exifExposureTime);
+        }
+
+        if (options.exifApertureValue) {
+          params = params.set(
+            'exif[aperture_value]',
+            options.exifApertureValue
+          );
+        }
+
+        if (options.exifFocalLength) {
+          params = params.set('exif[focal_length]', options.exifFocalLength);
+        }
+
+        if (options.exifIsoSpeedRatings) {
+          params = params.set(
+            'exif[iso_speed_ratings]',
+            options.exifIsoSpeedRatings
+          );
+        }
+
+        const url = new URL(
+          this.photosUrl + '/' + photo.id,
+          config.url.endsWith('/') ? config.url : config.url + '/'
+        ).toString();
+
+        return this.http.put<Photo>(url, photo, { headers, params });
+      })
+    );
+  }
+
+  /**
    * [Like a photo](https://unsplash.com/documentation#like-a-photo).
    *
    * Like a photo on behalf of the logged-in user. This requires the write_likes scope.
