@@ -1,10 +1,12 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 import { Download } from './model/download';
 import { Photo } from './model/photo';
+import { Resolution } from './model/resolution';
 import { SearchResult } from './model/search-result';
-import { mergeMap } from 'rxjs/operators';
+import { Statistics } from './model/statistics';
 
 export interface UnsplashConfig {
   url: string;
@@ -74,7 +76,7 @@ export class UnsplashService {
     orderBy?: 'latest' | 'oldest' | 'popular';
   }): Observable<Photo[]> {
     return this.config$.pipe(
-      mergeMap(config => {
+      mergeMap((config) => {
         if (!config) {
           throw new Error('Unsplash configuration undefined');
         }
@@ -118,7 +120,7 @@ export class UnsplashService {
    */
   get(id: string): Observable<Photo> {
     return this.config$.pipe(
-      mergeMap(config => {
+      mergeMap((config) => {
         if (!config) {
           throw new Error('Unsplash configuration undefined');
         }
@@ -156,7 +158,7 @@ export class UnsplashService {
     count?: Count;
   }): Observable<Photo[]> {
     return this.config$.pipe(
-      mergeMap(config => {
+      mergeMap((config) => {
         if (!config) {
           throw new Error('Unsplash configuration undefined');
         }
@@ -228,7 +230,7 @@ export class UnsplashService {
     }
   ): Observable<SearchResult> {
     return this.config$.pipe(
-      mergeMap(config => {
+      mergeMap((config) => {
         if (!config) {
           throw new Error('Unsplash configuration undefined');
         }
@@ -287,7 +289,7 @@ export class UnsplashService {
    */
   download(photo: Photo): Observable<Download> {
     return this.config$.pipe(
-      mergeMap(config => {
+      mergeMap((config) => {
         if (!config) {
           throw new Error('Unsplash configuration undefined');
         }
@@ -304,6 +306,49 @@ export class UnsplashService {
         ).toString();
 
         return this.http.get<Download>(url, { headers });
+      })
+    );
+  }
+
+  /**
+   * [Get a photo’s statistics](https://unsplash.com/documentation#get-a-photos-statistics)
+   *
+   * Retrieve total number of downloads, views and likes of a single photo, as well as the historical breakdown of these stats in a specific timeframe (default is 30 days).
+   */
+  statistics(
+    id: string,
+    options?: {
+      resolution?: Resolution;
+      quantity?: Count;
+    }
+  ): Observable<Statistics> {
+    return this.config$.pipe(
+      mergeMap((config) => {
+        if (!config) {
+          throw new Error('Unsplash configuration undefined');
+        }
+
+        let params = new HttpParams();
+
+        if (options?.resolution) {
+          params = params.set('resolution', options?.resolution);
+        }
+
+        if (options?.quantity) {
+          params = params.set('quantity', options?.quantity);
+        }
+
+        let headers = new HttpHeaders().set(
+          'authorization',
+          config.authorization
+        );
+
+        const url = new URL(
+          this.photosUrl + '/' + id + '/statistics',
+          config.url.endsWith('/') ? config.url : config.url + '/'
+        ).toString();
+
+        return this.http.get<Statistics>(url, { headers, params });
       })
     );
   }
