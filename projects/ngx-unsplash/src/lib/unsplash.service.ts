@@ -1,10 +1,11 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 import { Download } from './model/download';
+import { Like } from './model/like';
 import { Photo } from './model/photo';
 import { SearchResult } from './model/search-result';
-import { mergeMap } from 'rxjs/operators';
 
 export interface UnsplashConfig {
   url: string;
@@ -74,7 +75,7 @@ export class UnsplashService {
     orderBy?: 'latest' | 'oldest' | 'popular';
   }): Observable<Photo[]> {
     return this.config$.pipe(
-      mergeMap(config => {
+      mergeMap((config) => {
         if (!config) {
           throw new Error('Unsplash configuration undefined');
         }
@@ -118,7 +119,7 @@ export class UnsplashService {
    */
   get(id: string): Observable<Photo> {
     return this.config$.pipe(
-      mergeMap(config => {
+      mergeMap((config) => {
         if (!config) {
           throw new Error('Unsplash configuration undefined');
         }
@@ -156,7 +157,7 @@ export class UnsplashService {
     count?: Count;
   }): Observable<Photo[]> {
     return this.config$.pipe(
-      mergeMap(config => {
+      mergeMap((config) => {
         if (!config) {
           throw new Error('Unsplash configuration undefined');
         }
@@ -228,7 +229,7 @@ export class UnsplashService {
     }
   ): Observable<SearchResult> {
     return this.config$.pipe(
-      mergeMap(config => {
+      mergeMap((config) => {
         if (!config) {
           throw new Error('Unsplash configuration undefined');
         }
@@ -287,7 +288,7 @@ export class UnsplashService {
    */
   download(photo: Photo): Observable<Download> {
     return this.config$.pipe(
-      mergeMap(config => {
+      mergeMap((config) => {
         if (!config) {
           throw new Error('Unsplash configuration undefined');
         }
@@ -304,6 +305,37 @@ export class UnsplashService {
         ).toString();
 
         return this.http.get<Download>(url, { headers });
+      })
+    );
+  }
+
+  /**
+   * [Like a photo](https://unsplash.com/documentation#like-a-photo).
+   *
+   * Like a photo on behalf of the logged-in user. This requires the write_likes scope.
+   *
+   * @param photo to like
+   * @returns Observable containing the {@link Like}
+   * @throws Error if the Unsplash configuration is undefined
+   */
+  like(photo: Photo): Observable<Like> {
+    return this.config$.pipe(
+      mergeMap((config) => {
+        if (!config) {
+          throw new Error('Unsplash configuration undefined');
+        }
+
+        let headers = new HttpHeaders().set(
+          'authorization',
+          config.authorization
+        );
+
+        const url = new URL(
+          this.photosUrl + '/' + photo.id + '/like',
+          config.url.endsWith('/') ? config.url : config.url + '/'
+        ).toString();
+
+        return this.http.post<Like>(url, {}, { headers });
       })
     );
   }
