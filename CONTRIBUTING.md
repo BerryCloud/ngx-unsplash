@@ -21,7 +21,7 @@ Note: x should be replaced with either major, minor or patch. The `npm version` 
 
 Next, create a [GitHub release](https://github.com/BerryCloud/ngx-unsplash/releases) for the newly created version tag.
 
-Once the GitHub release has been created, GitHub actions will build publish the new version.
+Once the GitHub release has been created, GitHub actions will publish the new version.
 
 ### Merging the release branch into main
 
