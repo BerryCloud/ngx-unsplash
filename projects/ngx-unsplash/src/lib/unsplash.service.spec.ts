@@ -72,7 +72,7 @@ describe('UnsplashService', () => {
       'https://example.com/photos/test'
     );
     expect(req.request.method).toEqual('GET');
-    req.flush([]);
+    req.flush({});
   });
 
   it('test @berry-cloud/ngx-unsplash.UnsplashService.random', function (done) {
@@ -123,7 +123,7 @@ describe('UnsplashService', () => {
       'https://example.com/photos/LBI7cgq3pbM/download?ixid=MnwxMTc4ODl8MHwxfHNlYXJjaHwxfHxwdXBweXxlbnwwfHx8fDE2MTc3NTA2MTM'
     );
     expect(req.request.method).toEqual('GET');
-    req.flush([]);
+    req.flush({});
   });
 
   it('test @berry-cloud/ngx-unsplash.UnsplashService.collections', function (done) {
@@ -154,7 +154,7 @@ describe('UnsplashService', () => {
       'https://example.com/collections/test'
     );
     expect(req.request.method).toEqual('GET');
-    req.flush([]);
+    req.flush({});
   });
 
   it('test @berry-cloud/ngx-unsplash.UnsplashService.collectionPhotos', function (done) {
@@ -219,7 +219,7 @@ describe('UnsplashService', () => {
       'https://example.com/topics/test'
     );
     expect(req.request.method).toEqual('GET');
-    req.flush([]);
+    req.flush({});
   });
 
   it('test @berry-cloud/ngx-unsplash.UnsplashService.topicPhotos', function (done) {
@@ -252,7 +252,7 @@ describe('UnsplashService', () => {
       'https://example.com/users/test'
     );
     expect(req.request.method).toEqual('GET');
-    req.flush([]);
+    req.flush({});
   });
 
   it('test @berry-cloud/ngx-unsplash.UnsplashService.userPortfolio', function (done) {
