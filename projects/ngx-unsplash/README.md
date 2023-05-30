@@ -214,6 +214,8 @@ export class SearchComponent {
 
 ### Triggering a download
 
+Inject the UnsplashService into the constructor of a component.
+
 Example:
 
 ```TypeScript
@@ -223,6 +225,311 @@ constructor(private unsplash: UnsplashService) {}
 
   download(photo: Photo) {
     this.unsplash.download(photo).subscribe();
+  }
+}
+```
+
+### List Collections
+
+Inject the UnsplashService into the constructor of a component.
+
+Options:
+
+- page
+- perPage
+
+Example:
+
+```TypeScript
+export class ListCollections {
+  collections: Collection[] | undefined;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  collections() {
+    this.unsplash.collections({ perPage: 10 }).subscribe((response) => {
+      this.collections = response.results;
+    });
+  }
+}
+```
+
+### Get a Collection by id
+
+Inject the UnsplashService into the constructor of a component.
+
+Example:
+
+```TypeScript
+export class GetCollection {
+  collection: Collection | undefined;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  collection(id: string) {
+    this.unsplash.collection(id).subscribe((response) => {
+      this.collection = response.results;
+    });
+  }
+}
+```
+
+### Get a collection's photos
+
+Inject the UnsplashService into the constructor of a component.
+
+Options:
+
+- page
+- perPage
+- orientation
+
+Example:
+
+```TypeScript
+export class getCollectionPhotos {
+  collectionPhotos: Photo[] | undefined;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  collectionPhotos(id: string) {
+    this.unsplash.collectionPhotos(id, { perPage: 10 }).subscribe((response) => {
+      this.collectionPhotos = response.results;
+    });
+  }
+}
+```
+
+### List Related Collections
+
+Inject the UnsplashService into the constructor of a component.
+
+Example:
+
+```TypeScript
+export class ListRelatedCollections {
+  relatedCollections: Collection[] | undefined;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  relatedCollections(id: string) {
+    this.unsplash.relatedCollections(id).subscribe((response) => {
+      this.relatedCollections = response.results;
+    });
+  }
+}
+```
+
+### List Topics
+
+Inject the UnsplashService into the constructor of a component.
+
+Options:
+
+- ids
+- page
+- perPage
+- orderBy
+
+Example:
+
+```TypeScript
+export class ListTopics {
+  topics: Topic[] | undefined;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  topics() {
+    this.unsplash.topics({ perPage: 10 }).subscribe((response) => {
+      this.topics = response.results;
+    });
+  }
+}
+```
+
+### Get a Topic by id
+
+Inject the UnsplashService into the constructor of a component.
+
+Example:
+
+```TypeScript
+export class GetTopic {
+  topic: Topic | undefined;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  topic(id: string) {
+    this.unsplash.topic(id).subscribe((response) => {
+      this.topic = response.results;
+    });
+  }
+}
+```
+
+### Get a Topic's Photos
+
+Inject the UnsplashService into the constructor of a component.
+
+Example:
+
+```TypeScript
+export class GetTopicPhotos {
+  topicPhotos: Photo[] | undefined;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  topicPhotos(id: string) {
+    this.unsplash.topicPhotos(id).subscribe((response) => {
+      this.topicPhotos = response.results;
+    });
+  }
+}
+```
+
+### Get a User's Public Profile
+
+Inject the UnsplashService into the constructor of a component.
+
+Example:
+
+```TypeScript
+export class GetUser {
+  user: User | undefined;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  user(username: string) {
+    this.unsplash.user(username).subscribe((response) => {
+      this.user = response.results;
+    });
+  }
+}
+```
+
+### Get a User's Portfolio Link
+
+Inject the UnsplashService into the constructor of a component.
+
+Example:
+
+```TypeScript
+export class GetUserPortfolio {
+  url: string | undefined;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  userPortfolio(username: string) {
+    this.unsplash.userPortfolio(username).subscribe((response) => {
+      this.url = response.results;
+    });
+  }
+}
+```
+
+### List a User’s Photos
+
+Inject the UnsplashService into the constructor of a component.
+
+Options:
+
+- page
+- perPage
+- orderBy
+- stats
+- resolution
+- quantity
+- orientation
+
+Example:
+
+```TypeScript
+export class ListUserPhotos {
+  userPhotos: Photo[] | undefined;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  userPhotos(username: string) {
+    this.unsplash.userPhotos(username, { perPage: 10 }).subscribe((response) => {
+      this.userPhotos = response.results;
+    });
+  }
+}
+```
+
+### List a User’s Liked Photos
+
+Inject the UnsplashService into the constructor of a component.
+
+Options:
+
+- page
+- perPage
+- orderBy
+- orientation
+
+Example:
+
+```TypeScript
+export class ListUserLikedPhotos {
+  userLikes: Photo[] | undefined;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  userLikes(username: string) {
+    this.unsplash.userLikes(username, { perPage: 10 }).subscribe((response) => {
+      this.userLikes = response.results;
+    });
+  }
+}
+```
+
+### List a User’s Collections
+
+Inject the UnsplashService into the constructor of a component.
+
+Options:
+
+- page
+- perPage
+
+Example:
+
+```TypeScript
+export class ListUserCollections {
+  userCollections: Collection[] | undefined;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  userCollections(username: string) {
+    this.unsplash.userCollections(username, { perPage: 10 }).subscribe((response) => {
+      this.userCollections = response.results;
+    });
+  }
+}
+```
+
+### Get a User’s Statistics
+
+Inject the UnsplashService into the constructor of a component.
+
+Options:
+
+- resolution
+- quantity
+
+Example:
+
+```TypeScript
+export class GetUserStatistics {
+  userStatistics: UserStatistics | undefined ;
+
+  constructor(private unsplash: UnsplashService) {}
+
+  userStatistics(username: string) {
+    this.unsplash.userStatistics(username, { perPage: 10 }).subscribe((response) => {
+      this.userStatistics = response.results;
+    });
   }
 }
 ```

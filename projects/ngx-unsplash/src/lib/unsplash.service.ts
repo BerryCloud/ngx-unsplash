@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { Download } from './model/download';
 import { Photo } from './model/photo';
 import { SearchResult } from './model/search-result';
-import { mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { Collection } from './model/collection';
 import { Topic } from './model/topic';
 import { User } from './model/user';
@@ -92,6 +92,7 @@ export class UnsplashService {
     perPage?: number;
     orderBy?: 'latest' | 'oldest' | 'popular';
   }): Observable<Photo[]> {
+    console.log('list');
     return this.config$.pipe(
       mergeMap((config) => {
         let params = new HttpParams();
@@ -144,7 +145,7 @@ export class UnsplashService {
    * @param options to be used when getting random photos
    * @returns Observable containing a {@link Photo} array
    */
-  random(options: {
+  random(options?: {
     collections?: string;
     topics?: string;
     username?: string;
@@ -389,7 +390,7 @@ export class UnsplashService {
   }
 
   /**
-   * [List related collections](https://unsplash.com/documentation#list-related-collections).
+   * [List related collections](https://unsplash.com/documentation#list-a-collections-related-collections).
    * Retrieve a list of collections related to a particular one.
    * @param id of the collection to retrieve related collections from
    * @returns Observable containing a {@link Collection} array
@@ -563,7 +564,7 @@ export class UnsplashService {
    * @throws Error if the user username is not provided
    * @throws Error if the Unsplash configuration is not provided
    */
-  userPortfolio(username: string): Observable<User> {
+  userPortfolio(username: string): Observable<string | undefined> {
     return this.config$.pipe(
       mergeMap((config) => {
         if (!username) {
@@ -577,8 +578,9 @@ export class UnsplashService {
           config
         );
 
-        return this.http.get<User>(url, { headers });
-      })
+        return this.http.get<{ url: string }>(url, { headers });
+      }),
+      map((response) => response.url)
     );
   }
 
