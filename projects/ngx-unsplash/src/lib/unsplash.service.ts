@@ -9,6 +9,15 @@ import { SearchResult } from './model/search-result';
 import { UserStatistics } from './model/statistics';
 import { Topic } from './model/topic';
 import { User } from './model/user';
+import {
+  UnsplashColor,
+  UnsplashContentFilter,
+  UnsplashFeaturedOrderBy,
+  UnsplashOrderBy,
+  UnsplashOrientation,
+  UnsplashResolution,
+  UnsplashSearchOrderBy,
+} from '../public-api';
 
 export interface UnsplashConfig {
   url: string;
@@ -18,10 +27,6 @@ export interface UnsplashConfig {
 export const UNSPLASH_CONFIG = new InjectionToken<
   UnsplashConfig | Observable<UnsplashConfig>
 >('unsplash.config');
-
-export type Orientation = 'landscape' | 'portrait' | 'squarish';
-
-export type ContentFilter = 'low' | 'high';
 
 // prettier-ignore
 export type Count =
@@ -91,7 +96,7 @@ export class UnsplashService {
   photos(options?: {
     page?: number;
     perPage?: number;
-    orderBy?: 'latest' | 'oldest' | 'popular';
+    orderBy?: UnsplashOrderBy;
   }): Observable<Photo[]> {
     return this.config$.pipe(
       mergeMap((config) => {
@@ -152,8 +157,8 @@ export class UnsplashService {
     topics?: string;
     username?: string;
     query?: string;
-    orientation?: Orientation;
-    contentFilter?: ContentFilter;
+    orientation?: UnsplashOrientation;
+    contentFilter?: UnsplashContentFilter;
     count?: Count;
   }): Observable<Photo[]> {
     return this.config$.pipe(
@@ -212,11 +217,11 @@ export class UnsplashService {
     options?: {
       page?: number;
       perPage?: number;
-      orderBy?: 'latest' | 'relevant';
+      orderBy?: UnsplashSearchOrderBy;
       collections?: string;
-      contentFilter?: ContentFilter;
-      color?: Color;
-      orientation?: Orientation;
+      contentFilter?: UnsplashContentFilter;
+      color?: UnsplashColor;
+      orientation?: UnsplashOrientation;
     }
   ): Observable<SearchResult> {
     return this.config$.pipe(
@@ -365,7 +370,7 @@ export class UnsplashService {
     options?: {
       page?: number;
       perPage?: number;
-      orientation?: 'landscape' | 'portrait' | 'squarish';
+      orientation?: UnsplashOrientation;
     }
   ): Observable<Photo[]> {
     return this.config$.pipe(
@@ -442,7 +447,7 @@ export class UnsplashService {
     ids?: string[];
     page?: number;
     perPage?: number;
-    orderBy?: 'featured' | 'latest' | 'oldest' | 'position';
+    orderBy?: UnsplashFeaturedOrderBy;
   }): Observable<Topic[]> {
     return this.config$.pipe(
       mergeMap((config) => {
@@ -517,8 +522,8 @@ export class UnsplashService {
     options?: {
       page?: number;
       perPage?: number;
-      orientation?: 'landscape' | 'portrait' | 'squarish';
-      orderBy?: 'latest' | 'oldest' | 'popular';
+      orientation?: UnsplashOrientation;
+      orderBy?: UnsplashOrderBy;
     }
   ): Observable<Photo[]> {
     return this.config$.pipe(
@@ -629,11 +634,11 @@ export class UnsplashService {
     options?: {
       page?: number;
       perPage?: number;
-      orderBy?: 'latest' | 'oldest' | 'popular';
+      orderBy?: UnsplashOrderBy;
       stats?: boolean;
-      resolution?: 'days' | 'months' | 'years';
+      resolution?: UnsplashResolution;
       quantity?: number;
-      orientation?: 'landscape' | 'portrait' | 'squarish';
+      orientation?: UnsplashOrientation;
     }
   ): Observable<Photo[]> {
     return this.config$.pipe(
@@ -701,7 +706,7 @@ export class UnsplashService {
     options?: {
       page?: number;
       perPage?: number;
-      orderBy?: 'latest' | 'oldest' | 'popular';
+      orderBy?: UnsplashOrderBy;
     }
   ): Observable<Photo[]> {
     return this.config$.pipe(
@@ -753,7 +758,7 @@ export class UnsplashService {
     options?: {
       page?: number;
       perPage?: number;
-      orderBy?: 'latest' | 'oldest' | 'popular';
+      orderBy?: UnsplashOrderBy;
     }
   ): Observable<Collection[]> {
     return this.config$.pipe(
@@ -803,7 +808,7 @@ export class UnsplashService {
   userStatistics(
     username: string,
     options?: {
-      resolution?: 'days' | 'months' | 'years';
+      resolution?: UnsplashResolution;
       quantity?: number;
     }
   ): Observable<UserStatistics> {
