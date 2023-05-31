@@ -277,7 +277,7 @@ export class UnsplashService {
         const photoUrl = new URL(photo.links.download_location);
 
         const url = this.unsplashUrl(
-          photoUrl.pathname.substr(1) + photoUrl.search,
+          photoUrl.pathname.substring(1) + photoUrl.search,
           config
         );
 
@@ -790,7 +790,7 @@ export class UnsplashService {
 
   /**
    * [Get a user’s statistics](https://unsplash.com/documentation#get-a-users-statistics).
-   * Retrieve total number of downloads, views and likes of all user’s photos, as well as the historical breakdown and average of these stats in a specific timeframe (default is 30 days).
+   * Retrieve total number of downloads, views and likes of all user’s photos, as well as the historical breakdown and average of these stats in a specific time frame (default is 30 days).
    *
    * @param username of the user to retrieve statistics from
    * @param options to be used when getting statistics from a user
