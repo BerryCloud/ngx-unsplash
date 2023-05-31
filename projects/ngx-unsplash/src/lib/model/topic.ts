@@ -10,6 +10,7 @@ export interface Topic {
   updated_at: string;
   starts_at: string;
   ends_at: string;
+  only_submissions_after: string;
   visibility: string;
   featured: boolean;
   total_photos: number;
@@ -20,8 +21,7 @@ export interface Topic {
   };
   status: string;
   owners: User[];
-  currentUserContributions: any[];
-  total_current_user_submissions: any;
+  top_contributors: User[];
   cover_photo: Photo;
   preview_photos: Photo[];
 }

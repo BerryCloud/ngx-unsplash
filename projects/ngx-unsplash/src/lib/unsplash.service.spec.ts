@@ -3,12 +3,12 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { Photo } from '../public-api';
 import {
   UNSPLASH_CONFIG,
   UnsplashConfig,
   UnsplashService,
 } from './unsplash.service';
-import { Photo } from '../public-api';
 
 describe('UnsplashService', () => {
   let httpTestingController: HttpTestingController;
@@ -22,7 +22,7 @@ describe('UnsplashService', () => {
           provide: UNSPLASH_CONFIG,
           useValue: {
             url: 'https://example.com',
-            authorization: 'Client-ID 123',
+            authorization: 'Bearer 123',
           } as UnsplashConfig,
         },
       ],

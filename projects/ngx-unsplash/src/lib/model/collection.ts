@@ -18,6 +18,5 @@ export interface Collection {
     self: string;
     html: string;
     photos: string;
-    related: string;
   };
 }
