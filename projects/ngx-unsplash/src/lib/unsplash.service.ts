@@ -34,19 +34,6 @@ export type Count =
   | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20
   | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30;
 
-export type Color =
-  | 'black_and_white'
-  | 'black'
-  | 'white'
-  | 'yellow'
-  | 'orange'
-  | 'red'
-  | 'purple'
-  | 'magenta'
-  | 'green'
-  | 'teal'
-  | 'blue';
-
 @Injectable({
   providedIn: 'root',
 })
