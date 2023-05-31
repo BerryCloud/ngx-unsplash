@@ -106,7 +106,7 @@ function unsplashConfigFactory(userService: UserService) {
 export class AppModule {}
 ```
 
-### List
+### List Photos
 
 Inject the UnsplashService into the constructor of a component.
 
@@ -124,15 +124,15 @@ export class ListComponent {
 
   constructor(private unsplash: UnsplashService) {}
 
-  list() {
-    this.unsplash.list({ perPage: 40 }).subscribe((response) => {
+  photos() {
+    this.unsplash.photos({ perPage: 40 }).subscribe((response) => {
       this.photos = response;
     });
   }
 }
 ```
 
-### Get
+### Get a Photo
 
 Inject the UnsplashService into the constructor of a component.
 
@@ -144,8 +144,8 @@ export class GetComponent {
 
   constructor(private unsplash: UnsplashService) {}
 
-  get(id: string) {
-    this.unsplash.get(id).subscribe((response) => {
+  photo(id: string) {
+    this.unsplash.photo(id).subscribe((response) => {
       this.photo = response;
     });
   }
@@ -174,8 +174,8 @@ export class RandomComponent {
 
   constructor(private unsplash: UnsplashService) {}
 
-  random() {
-    this.unsplash.random({ count: 10 }).subscribe((response) => {
+  randomPhoto() {
+    this.unsplash.randomPhoto({ count: 10 }).subscribe((response) => {
       this.photos = response;
     });
   }
@@ -204,8 +204,8 @@ export class SearchComponent {
 
   constructor(private unsplash: UnsplashService) {}
 
-  search(query: string) {
-    this.unsplash.search(query, { perPage: 10 }).subscribe((response) => {
+  searchPhotos(query: string) {
+    this.unsplash.searchPhotos(query, { perPage: 10 }).subscribe((response) => {
       this.photos = response.results;
     });
   }
@@ -223,7 +223,7 @@ export class DownloadComponent {
 
 constructor(private unsplash: UnsplashService) {}
 
-  download(photo: Photo) {
+  downloadPhoto(photo: Photo) {
     this.unsplash.download(photo).subscribe();
   }
 }

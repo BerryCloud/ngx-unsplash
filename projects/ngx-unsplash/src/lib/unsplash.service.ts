@@ -8,7 +8,6 @@ import { Photo } from './model/photo';
 import { SearchResult } from './model/search-result';
 import { UserStatistics } from './model/statistics';
 import { Topic } from './model/topic';
-import { User } from './model/user';
 import {
   UnsplashColor,
   UnsplashContentFilter,
@@ -17,7 +16,8 @@ import {
   UnsplashOrientation,
   UnsplashResolution,
   UnsplashSearchOrderBy,
-} from '../public-api';
+} from './model/types';
+import { User } from './model/user';
 
 export interface UnsplashConfig {
   url: string;
@@ -124,6 +124,25 @@ export class UnsplashService {
   }
 
   /**
+   * [List photos](https://unsplash.com/documentation#list-photos).
+   *
+   * Get a single page from the list of all photos.
+   *
+   * @param options to be used when getting list of photos
+   *
+   * @returns Observable containing a {@link Photo} array
+   *
+   * @deprecated Use {@link photos} instead
+   */
+  list(options?: {
+    page?: number;
+    perPage?: number;
+    orderBy?: UnsplashOrderBy;
+  }): Observable<Photo[]> {
+    return this.photos(options);
+  }
+
+  /**
    * [Get a photo](https://unsplash.com/documentation#get-a-photo).
    *
    * Retrieve a single photo.
@@ -141,6 +160,21 @@ export class UnsplashService {
         return this.http.get<Photo>(url, { headers });
       })
     );
+  }
+
+  /**
+   * [Get a photo](https://unsplash.com/documentation#get-a-photo).
+   *
+   * Retrieve a single photo.
+   *
+   * @param id of the photo
+   *
+   * @returns  Observable containing the {@link Photo}
+   *
+   * @deprecated Use {@link photo} instead
+   */
+  get(id: string): Observable<Photo> {
+    return this.photo(id);
   }
 
   /**
@@ -200,6 +234,29 @@ export class UnsplashService {
         return this.http.get<Photo[]>(url, { params, headers });
       })
     );
+  }
+
+  /**
+   * [Get random photos](https://unsplash.com/documentation#get-a-random-photo).
+   *
+   * Retrieve random photos.
+   *
+   * @param options to be used when getting random photos
+   *
+   * @returns Observable containing a {@link Photo} array
+   *
+   * @deprecated Use {@link randomPhoto} instead
+   */
+  random(options?: {
+    collections?: string;
+    topics?: string;
+    username?: string;
+    query?: string;
+    orientation?: UnsplashOrientation;
+    contentFilter?: UnsplashContentFilter;
+    count?: Count;
+  }): Observable<Photo[]> {
+    return this.randomPhoto(options);
   }
 
   /**
@@ -266,6 +323,33 @@ export class UnsplashService {
   }
 
   /**
+   * [Search photos](https://unsplash.com/documentation#search-photos).
+   *
+   * Get a single page of photo results for a query.
+   *
+   * @param query to search for
+   * @param options to be used when searching photos
+   *
+   * @returns Observable containing a {@link SearchResult}
+   *
+   * @deprecated Use {@link searchPhotos} instead
+   */
+  search(
+    query: string,
+    options?: {
+      page?: number;
+      perPage?: number;
+      orderBy?: UnsplashSearchOrderBy;
+      collections?: string;
+      contentFilter?: UnsplashContentFilter;
+      color?: UnsplashColor;
+      orientation?: UnsplashOrientation;
+    }
+  ): Observable<SearchResult> {
+    return this.searchPhotos(query, options);
+  }
+
+  /**
    * [Trigger a download](https://help.unsplash.com/en/articles/2511258-guideline-triggering-a-download)
    * of a photo.
    *
@@ -289,6 +373,20 @@ export class UnsplashService {
         return this.http.get<Download>(url, { headers });
       })
     );
+  }
+
+  /**
+   * [Trigger a download](https://help.unsplash.com/en/articles/2511258-guideline-triggering-a-download)
+   * of a photo.
+   *
+   * @param photo to download
+   *
+   * @returns Observable containing the {@link Download}
+   *
+   * @deprecated Use {@link downloadPhoto} instead
+   */
+  download(photo: Photo): Observable<Download> {
+    return this.downloadPhoto(photo);
   }
 
   /**
