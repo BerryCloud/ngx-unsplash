@@ -93,7 +93,6 @@ export class UnsplashService {
     perPage?: number;
     orderBy?: 'latest' | 'oldest' | 'popular';
   }): Observable<Photo[]> {
-    console.log('list');
     return this.config$.pipe(
       mergeMap((config) => {
         let params = new HttpParams();
