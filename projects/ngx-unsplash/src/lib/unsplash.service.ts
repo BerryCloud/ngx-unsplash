@@ -276,6 +276,7 @@ export class UnsplashService {
 
         const photoUrl = new URL(photo.links.download_location);
 
+        // Remove the leading slash from the pathname and add the search
         const url = this.unsplashUrl(
           photoUrl.pathname.substring(1) + photoUrl.search,
           config
