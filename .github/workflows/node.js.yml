@@ -28,4 +28,4 @@ jobs:
       - run: npm ci
       - run: npx ng build
       # TODO add linting
-      - run: npx ng test --no-watch --no-progress --browsers=ChromeHeadless
+      - run: npx ng test --no-watch --no-progress --code-coverage --browsers=ChromeHeadless
