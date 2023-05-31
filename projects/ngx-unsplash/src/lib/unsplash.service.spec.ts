@@ -41,9 +41,9 @@ describe('UnsplashService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.list', function (done) {
+  it('test photos', function (done) {
     service
-      .list({
+      .photos({
         page: 1,
         perPage: 2,
         orderBy: 'latest',
@@ -57,11 +57,13 @@ describe('UnsplashService', () => {
       'https://example.com/photos?page=1&per_page=2&order_by=latest'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush([]);
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.get', function (done) {
-    service.get('test').subscribe((result) => {
+  it('test photo', function (done) {
+    service.photo('test').subscribe((result) => {
       expect(result).toBeTruthy();
       done();
     });
@@ -70,11 +72,13 @@ describe('UnsplashService', () => {
       'https://example.com/photos/test'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush({});
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.random', function (done) {
-    service.random().subscribe((result) => {
+  it('test randomPhoto', function (done) {
+    service.randomPhoto().subscribe((result) => {
       expect(result).toBeTruthy();
       done();
     });
@@ -83,12 +87,14 @@ describe('UnsplashService', () => {
       'https://example.com/photos/random'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush([]);
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.search', function (done) {
+  it('test searchPhotos', function (done) {
     service
-      .search('test', {
+      .searchPhotos('test', {
         page: 1,
         perPage: 2,
       })
@@ -100,13 +106,16 @@ describe('UnsplashService', () => {
     const req = httpTestingController.expectOne(
       'https://example.com/search/photos?query=test&page=1&per_page=2'
     );
+
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush([]);
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.download', function (done) {
+  it('test downloadPhoto', function (done) {
     service
-      .download({
+      .downloadPhoto({
         links: {
           download_location:
             'https://api.unsplash.com/photos/LBI7cgq3pbM/download?ixid=MnwxMTc4ODl8MHwxfHNlYXJjaHwxfHxwdXBweXxlbnwwfHx8fDE2MTc3NTA2MTM',
@@ -121,10 +130,12 @@ describe('UnsplashService', () => {
       'https://example.com/photos/LBI7cgq3pbM/download?ixid=MnwxMTc4ODl8MHwxfHNlYXJjaHwxfHxwdXBweXxlbnwwfHx8fDE2MTc3NTA2MTM'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush({});
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.collections', function (done) {
+  it('test collections', function (done) {
     service
       .collections({
         page: 1,
@@ -139,10 +150,12 @@ describe('UnsplashService', () => {
       'https://example.com/collections?page=1&per_page=2'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush([]);
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.collection', function (done) {
+  it('test collection', function (done) {
     service.collection('test').subscribe((result) => {
       expect(result).toBeTruthy();
       done();
@@ -152,10 +165,12 @@ describe('UnsplashService', () => {
       'https://example.com/collections/test'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush({});
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.collectionPhotos', function (done) {
+  it('test collectionPhotos', function (done) {
     service
       .collectionPhotos('test', {
         page: 1,
@@ -171,10 +186,12 @@ describe('UnsplashService', () => {
       'https://example.com/collections/test/photos?page=1&per_page=2&orientation=landscape'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush([]);
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.relatedCollections', function (done) {
+  it('test relatedCollections', function (done) {
     service.relatedCollections('test').subscribe((result) => {
       expect(result).toBeTruthy();
       done();
@@ -184,10 +201,12 @@ describe('UnsplashService', () => {
       'https://example.com/collections/test/related'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush([]);
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.topics', function (done) {
+  it('test topics', function (done) {
     service
       .topics({
         ids: ['t1', 't2'],
@@ -204,10 +223,12 @@ describe('UnsplashService', () => {
       'https://example.com/topics?ids=t1,t2&page=1&per_page=2&order_by=latest'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush([]);
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.topic', function (done) {
+  it('test topic', function (done) {
     service.topic('test').subscribe((result) => {
       expect(result).toBeTruthy();
       done();
@@ -217,10 +238,12 @@ describe('UnsplashService', () => {
       'https://example.com/topics/test'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush({});
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.topicPhotos', function (done) {
+  it('test topicPhotos', function (done) {
     service
       .topicPhotos('test', {
         page: 1,
@@ -237,10 +260,12 @@ describe('UnsplashService', () => {
       'https://example.com/topics/test/photos?page=1&per_page=2&orientation=landscape&order_by=latest'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush([]);
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.user', function (done) {
+  it('test user', function (done) {
     service.user('test').subscribe((result) => {
       expect(result).toBeTruthy();
       done();
@@ -250,10 +275,12 @@ describe('UnsplashService', () => {
       'https://example.com/users/test'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush({});
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.userPortfolio', function (done) {
+  it('test userPortfolio', function (done) {
     service.userPortfolio('test').subscribe((result) => {
       expect(result).toBe('https://example.com/portfolio');
       done();
@@ -263,10 +290,12 @@ describe('UnsplashService', () => {
       'https://example.com/users/test/portfolio'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush({ url: 'https://example.com/portfolio' });
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.userPhotos', function (done) {
+  it('test userPhotos', function (done) {
     service
       .userPhotos('test', {
         page: 1,
@@ -285,10 +314,12 @@ describe('UnsplashService', () => {
       'https://example.com/users/test/photos?page=1&per_page=2&order_by=latest&stats=true&resolution=days&quantity=1'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush([]);
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.userLikes', function (done) {
+  it('test userLikes', function (done) {
     service
       .userLikes('test', {
         page: 1,
@@ -304,10 +335,12 @@ describe('UnsplashService', () => {
       'https://example.com/users/test/likes?page=1&per_page=2&order_by=latest'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush([]);
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.userCollections', function (done) {
+  it('test userCollections', function (done) {
     service
       .userCollections('test', {
         page: 1,
@@ -323,10 +356,12 @@ describe('UnsplashService', () => {
       'https://example.com/users/test/collections?page=1&per_page=2&order_by=latest'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush([]);
   });
 
-  it('test @berry-cloud/ngx-unsplash.UnsplashService.userStatistics', function (done) {
+  it('test userStatistics', function (done) {
     service
       .userStatistics('test', {
         resolution: 'days',
@@ -341,6 +376,8 @@ describe('UnsplashService', () => {
       'https://example.com/users/test/statistics?resolution=days&quantity=1'
     );
     expect(req.request.method).toEqual('GET');
+    expect(req.request.headers.get('Authorization')).toEqual('Bearer 123');
+
     req.flush({ downloads: { total: 1 } });
   });
 });
@@ -355,7 +392,7 @@ describe('UnsplashService without configuration url', () => {
         {
           provide: UNSPLASH_CONFIG,
           useValue: {
-            authorization: 'Client-ID 123',
+            authorization: 'Bearer 123',
           } as UnsplashConfig,
         },
       ],
@@ -366,7 +403,7 @@ describe('UnsplashService without configuration url', () => {
 
   it('should throw error', function (done) {
     service
-      .list({
+      .photos({
         page: 1,
         perPage: 2,
         orderBy: 'latest',
@@ -404,7 +441,7 @@ describe('UnsplashService without configuration authorization', () => {
 
   it('should throw error', function (done) {
     service
-      .list({
+      .photos({
         page: 1,
         perPage: 2,
         orderBy: 'latest',
@@ -440,7 +477,7 @@ describe('UnsplashService without configuration', () => {
 
   it('should throw error', function (done) {
     service
-      .list({
+      .photos({
         page: 1,
         perPage: 2,
         orderBy: 'latest',

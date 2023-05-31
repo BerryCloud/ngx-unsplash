@@ -1,14 +1,14 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { map, mergeMap, tap } from 'rxjs/operators';
+import { Collection } from './model/collection';
 import { Download } from './model/download';
 import { Photo } from './model/photo';
 import { SearchResult } from './model/search-result';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
-import { Collection } from './model/collection';
+import { UserStatistics } from './model/statistics';
 import { Topic } from './model/topic';
 import { User } from './model/user';
-import { UserStatistics } from './model/statistics';
 
 export interface UnsplashConfig {
   url: string;
@@ -85,9 +85,10 @@ export class UnsplashService {
    * Get a single page from the list of all photos.
    *
    * @param options to be used when getting list of photos
+   *
    * @returns Observable containing a {@link Photo} array
    */
-  list(options: {
+  photos(options?: {
     page?: number;
     perPage?: number;
     orderBy?: 'latest' | 'oldest' | 'popular';
@@ -97,15 +98,15 @@ export class UnsplashService {
       mergeMap((config) => {
         let params = new HttpParams();
 
-        if (options.page) {
-          params = params.set('page', options.page);
+        if (options?.page) {
+          params = params.set('page', options.page.toString());
         }
 
-        if (options.perPage) {
-          params = params.set('per_page', options.perPage);
+        if (options?.perPage) {
+          params = params.set('per_page', options.perPage.toString());
         }
 
-        if (options.orderBy) {
+        if (options?.orderBy) {
           params = params.set('order_by', options.orderBy);
         }
 
@@ -124,9 +125,10 @@ export class UnsplashService {
    * Retrieve a single photo.
    *
    * @param id of the photo
+   *
    * @returns  Observable containing the {@link Photo}
    */
-  get(id: string): Observable<Photo> {
+  photo(id: string): Observable<Photo> {
     return this.config$.pipe(
       mergeMap((config) => {
         const headers = this.unsplashHeaders(config);
@@ -143,9 +145,10 @@ export class UnsplashService {
    * Retrieve random photos.
    *
    * @param options to be used when getting random photos
+   *
    * @returns Observable containing a {@link Photo} array
    */
-  random(options?: {
+  randomPhoto(options?: {
     collections?: string;
     topics?: string;
     username?: string;
@@ -202,9 +205,10 @@ export class UnsplashService {
    *
    * @param query to search for
    * @param options to be used when searching photos
+   *
    * @returns Observable containing a {@link SearchResult}
    */
-  search(
+  searchPhotos(
     query: string,
     options?: {
       page?: number;
@@ -262,9 +266,10 @@ export class UnsplashService {
    * of a photo.
    *
    * @param photo to download
+   *
    * @returns Observable containing the {@link Download}
    */
-  download(photo: Photo): Observable<Download> {
+  downloadPhoto(photo: Photo): Observable<Download> {
     return this.config$.pipe(
       mergeMap((config) => {
         const headers = this.unsplashHeaders(config);
@@ -286,7 +291,9 @@ export class UnsplashService {
    * Retrieve a list of collections.
    *
    * @param options to be used when getting collections
+   *
    * @returns Observable containing a {@link Collection} array
+   *
    * @throws Error if the Unsplash configuration is not provided
    */
   collections(options?: {
@@ -319,7 +326,9 @@ export class UnsplashService {
    * Retrieve a single collection.
    *
    * @param id of the collection to retrieve
+   *
    * @returns Observable containing a {@link Collection}
+   *
    * @throws Error if the collection id is not provided
    * @throws Error if the Unsplash configuration is not provided
    */
@@ -345,7 +354,9 @@ export class UnsplashService {
    *
    * @param id of the collection to retrieve photos from
    * @param options to be used when getting photos from a collection
+   *
    * @returns Observable containing a {@link Photo} array
+   *
    * @throws Error if the collection id is not provided
    * @throws Error if the Unsplash configuration is not provided
    */
@@ -392,8 +403,11 @@ export class UnsplashService {
   /**
    * [List related collections](https://unsplash.com/documentation#list-a-collections-related-collections).
    * Retrieve a list of collections related to a particular one.
+   *
    * @param id of the collection to retrieve related collections from
+   *
    * @returns Observable containing a {@link Collection} array
+   *
    * @throws Error if the collection id is not provided
    * @throws Error if the Unsplash configuration is not provided
    */
@@ -419,7 +433,9 @@ export class UnsplashService {
   /**
    * [List topics](https://unsplash.com/documentation#list-topics).
    * Retrieve a list of topics.
+   *
    * @param options to be used when getting topics
+   *
    * @returns Observable containing a {@link Topic} array
    */
   topics(options?: {
@@ -460,8 +476,11 @@ export class UnsplashService {
   /**
    * [Get a topic](https://unsplash.com/documentation#get-a-topic).
    * Retrieve a single topic.
+   *
    * @param id of the topic to retrieve
+   *
    * @returns Observable containing a {@link Topic}
+   *
    * @throws Error if the topic id is not provided
    * @throws Error if the Unsplash configuration is not provided
    */
@@ -484,9 +503,12 @@ export class UnsplashService {
   /**
    * [Get a topic's photos](https://unsplash.com/documentation#get-a-topics-photos).
    * Retrieve a list of photos in a topic.
+   *
    * @param id of the topic to retrieve photos from
    * @param options to be used when getting photos from a topic
+   *
    * @returns Observable containing a {@link Photo} array
+   *
    * @throws Error if the topic id is not provided
    * @throws Error if the Unsplash configuration is not provided
    */
@@ -535,8 +557,11 @@ export class UnsplashService {
   /**
    * [Get a user](https://unsplash.com/documentation#get-a-user).
    * Retrieve public details on a given user.
+   *
    * @param username of the user to retrieve
+   *
    * @returns Observable containing a {@link User}
+   *
    * @throws Error if the user username is not provided
    * @throws Error if the Unsplash configuration is not provided
    */
@@ -559,8 +584,11 @@ export class UnsplashService {
   /**
    * [Get a user's portfolio link](https://unsplash.com/documentation#get-a-users-portfolio-link).
    * Retrieve a single user’s portfolio link.
+   *
    * @param username of the user to retrieve portfolio link from
+   *
    * @returns Observable containing a {@link User}
+   *
    * @throws Error if the user username is not provided
    * @throws Error if the Unsplash configuration is not provided
    */
@@ -587,9 +615,12 @@ export class UnsplashService {
   /**
    * [List a user’s photos](https://unsplash.com/documentation#list-a-users-photos).
    * Retrieve a list of photos uploaded by a user.
+   *
    * @param username of the user to retrieve photos from
    * @param options to be used when getting photos from a user
+   *
    * @returns Observable containing a {@link Photo} array
+   *
    * @throws Error if the user username is not provided
    * @throws Error if the Unsplash configuration is not provided
    */
@@ -659,7 +690,9 @@ export class UnsplashService {
    *
    * @param username of the user to retrieve liked photos from
    * @param options to be used when getting liked photos from a user
+   *
    * @returns Observable containing a {@link Photo} array
+   *
    * @throws Error if the user username is not provided
    * @throws Error if the Unsplash configuration is not provided
    */
@@ -706,9 +739,12 @@ export class UnsplashService {
   /**
    * [List a user’s collections](https://unsplash.com/documentation#list-a-users-collections).
    * Retrieve a list of collections created by the user.
+   *
    * @param username of the user to retrieve collections from
    * @param options to be used when getting collections from a user
+   *
    * @returns Observable containing a {@link Collection} array
+   *
    * @throws Error if the user username is not provided
    * @throws Error if the Unsplash configuration is not provided
    */
@@ -754,10 +790,13 @@ export class UnsplashService {
 
   /**
    * [Get a user’s statistics](https://unsplash.com/documentation#get-a-users-statistics).
-   *  Retrieve total number of downloads, views and likes of all user’s photos, as well as the historical breakdown and average of these stats in a specific timeframe (default is 30 days).
+   * Retrieve total number of downloads, views and likes of all user’s photos, as well as the historical breakdown and average of these stats in a specific timeframe (default is 30 days).
+   *
    * @param username of the user to retrieve statistics from
    * @param options to be used when getting statistics from a user
+   *
    * @returns Observable containing a {@link UserStatistics} object
+   *
    * @throws Error if the user username is not provided
    * @throws Error if the Unsplash configuration is not provided
    */
