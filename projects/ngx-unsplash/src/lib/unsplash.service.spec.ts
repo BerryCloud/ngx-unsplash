@@ -58,8 +58,6 @@ describe('UnsplashService', () => {
     );
     expect(req.request.method).toEqual('GET');
     req.flush([]);
-
-    httpTestingController.verify();
   });
 
   it('test @berry-cloud/ngx-unsplash.UnsplashService.get', function (done) {
@@ -344,5 +342,115 @@ describe('UnsplashService', () => {
     );
     expect(req.request.method).toEqual('GET');
     req.flush({ downloads: { total: 1 } });
+  });
+});
+
+describe('UnsplashService without configuration url', () => {
+  let service: UnsplashService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        {
+          provide: UNSPLASH_CONFIG,
+          useValue: {
+            authorization: 'Client-ID 123',
+          } as UnsplashConfig,
+        },
+      ],
+    });
+
+    service = TestBed.inject(UnsplashService);
+  });
+
+  it('should throw error', function (done) {
+    service
+      .list({
+        page: 1,
+        perPage: 2,
+        orderBy: 'latest',
+      })
+      .subscribe({
+        next: () => {},
+        error: (error) => {
+          expect(error).toEqual(
+            new Error('Unsplash configuration url undefined')
+          );
+          done();
+        },
+      });
+  });
+});
+
+describe('UnsplashService without configuration authorization', () => {
+  let service: UnsplashService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        {
+          provide: UNSPLASH_CONFIG,
+          useValue: {
+            url: 'https://example.com',
+          } as UnsplashConfig,
+        },
+      ],
+    });
+
+    service = TestBed.inject(UnsplashService);
+  });
+
+  it('should throw error', function (done) {
+    service
+      .list({
+        page: 1,
+        perPage: 2,
+        orderBy: 'latest',
+      })
+      .subscribe({
+        next: () => {},
+        error: (error) => {
+          expect(error).toEqual(
+            new Error('Unsplash configuration authorization undefined')
+          );
+          done();
+        },
+      });
+  });
+});
+
+describe('UnsplashService without configuration', () => {
+  let service: UnsplashService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        {
+          provide: UNSPLASH_CONFIG,
+          useValue: null,
+        },
+      ],
+    });
+
+    service = TestBed.inject(UnsplashService);
+  });
+
+  it('should throw error', function (done) {
+    service
+      .list({
+        page: 1,
+        perPage: 2,
+        orderBy: 'latest',
+      })
+      .subscribe({
+        next: () => {},
+        error: (error) => {
+          expect(error).toEqual(new Error('Unsplash configuration undefined'));
+          done();
+        },
+      });
   });
 });
