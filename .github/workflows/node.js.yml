@@ -24,6 +24,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm cache clean --force
       - run: npm ci
       - run: npx ng build
       # TODO add linting
