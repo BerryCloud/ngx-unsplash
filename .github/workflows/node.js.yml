@@ -25,7 +25,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - run: npm ci --legacy-peer-deps
       - run: npx ng build
       # TODO add linting
       - run: npx ng test --no-watch --no-progress --code-coverage --browsers=ChromeHeadless
