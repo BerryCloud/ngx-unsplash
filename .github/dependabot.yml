@@ -10,3 +10,8 @@ updates:
     versioning-strategy: lockfile-only
     schedule:
       interval: "monthly"
+    groups:
+      angular:
+        patterns:
+          - "@angular*"
+          - "ng-packagr"
