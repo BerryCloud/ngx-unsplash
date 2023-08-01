@@ -9,7 +9,7 @@ updates:
     directory: "/" # Location of package manifests
     versioning-strategy: lockfile-only
     schedule:
-      interval: "monthly"
+      interval: "weekly"
     groups:
       angular:
         patterns:
