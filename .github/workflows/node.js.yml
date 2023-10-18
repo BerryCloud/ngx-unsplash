@@ -29,8 +29,3 @@ jobs:
       - run: npx ng build
       # TODO add linting
       - run: npx ng test --no-watch --no-progress --code-coverage --browsers=ChromeHeadless
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
