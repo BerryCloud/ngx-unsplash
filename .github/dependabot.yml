@@ -10,6 +10,8 @@ updates:
     versioning-strategy: lockfile-only
     schedule:
       interval: "weekly"
+    reviewers:
+      - "berrycloud/reviewers"
     groups:
       Angular:
         patterns:
